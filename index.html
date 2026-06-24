@@ -435,28 +435,20 @@
     width: 100%; max-width: 380px;
   }
   .story-question-box {
-    background: #1c1c1c;
-    border-radius: 14px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 14px 14px 4px 14px;
     padding: 16px 20px;
     font-size: 15px; color: #fff;
-    margin-bottom: 20px;
-    font-style: normal;
+    margin-bottom: 8px;
+    font-style: italic;
     text-align: center;
-  }
-  .story-question-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.02em;
-    margin-bottom: 12px;
-    display: block;
   }
   .story-answer-box {
-    background: transparent;
-    padding: 8px 0;
-    font-size: 22px; font-weight: 800; color: #fff;
+    background: #fff;
+    border-radius: 4px 14px 14px 14px;
+    padding: 18px 20px;
+    font-size: 17px; font-weight: 700; color: #111;
     text-align: center;
-    letter-spacing: -0.01em;
   }
   .story-text-big {
     font-size: 28px; font-weight: 800; color: #fff;
@@ -514,7 +506,7 @@
     </div>
     <div class="stats-row">
       <div class="stat-item">
-        <span class="stat-num">9</span>
+        <span class="stat-num">1</span>
         <span class="stat-label">게시물</span>
       </div>
       <div class="stat-item">
@@ -598,15 +590,7 @@
 <div class="post-cell" onclick="openPost(7)">
       <img src="images/img15.jpg" loading="lazy" alt="">
     </div>
-  
-<div class="post-cell" onclick="openPost(8)">
-  <img src="images/img16.jpg" loading="lazy" alt="">
-</div>
-<div class="post-cell" onclick="openPost(9)">
-  <img src="images/img17.jpg" loading="lazy" alt="">
-</div>
-
-</div>
+  </div>
 
   <div class="spacer"></div>
 </div>
@@ -961,26 +945,6 @@ var _stories = [
     answer: '경찰이랑 추격전'
   },
   {
-    type: 'qa',
-    question: '할까 말까 할때는 해야될까요 말아야될까요',
-    answer: '말아야합니다'
-  },
-  {
-    type: 'qa',
-    question: '요즘 꽂혀있는 음악은?',
-    answer: '말 못해요 (힌트: 내 곡)'
-  },
-  {
-    type: 'qa',
-    question: '무대에서 제일 긴장되는 순간은?',
-    answer: '첫소절 뱉기 직전 0.3초'
-  },
-  {
-    type: 'qa',
-    question: '작업할 때 꼭 필요한 것?',
-    answer: '혼자 있는 시간이랑 믹스너트'
-  },
-  {
     type: 'user_photo',
     placeholder: true
   }
@@ -1030,10 +994,7 @@ function renderStory() {
   if (s.type === 'qa') {
     content.innerHTML =
       '<div class="story-qa-box">' +
-        '<div class="story-question-box">' +
-          '<span class="story-question-label">Go \'head, ask me somethin\'</span>' +
-          s.question +
-        '</div>' +
+        '<div class="story-question-box">Go \'head, ask me somethin\'<br><br>' + s.question + '</div>' +
         '<div class="story-answer-box">' + s.answer + '</div>' +
       '</div>';
   } else if (s.type === 'text') {
@@ -1078,57 +1039,3 @@ function uploadBehindPhoto(input) {
 
 </body>
 </html>
-<div class="modal-overlay" id="modal8" onclick="handleOverlayClick(event,8)">
-<button class="modal-close-btn" onclick="closePost(8)">✕</button>
-<div class="post-modal">
-<div class="modal-image-side"><img src="images/img16.jpg"></div>
-<div class="modal-detail-side">
-<div class="modal-header">
-<span class="modal-username">AURAofficial <span class="verified"></span></span>
-<span style="font-size:12px;color:#a8a8a8;margin-left:4px;">리안</span>
-</div>
-<div class="modal-comments">
-<div class="comment-item"><div class="comment-body">
-<div class="comment-text"><strong>AURAofficial</strong> ✦ 리안<br>오늘도 장난 한 번 치고 갑니다 😏</div>
-</div></div>
-
-<div class="comment-item"><div class="comment-body">
-<div class="comment-text"><strong>lian_fan</strong> 또 구라냐 진짜냐 ㅋㅋㅋㅋ</div>
-</div></div>
-
-<div class="comment-item"><div class="comment-body">
-<div class="comment-text"><strong>eunhwi_only</strong> 리안보다 은휘가 더 아이돌임 인정?</div>
-</div></div>
-
-</div>
-</div>
-</div>
-</div>
-
-<div class="modal-overlay" id="modal9" onclick="handleOverlayClick(event,9)">
-<button class="modal-close-btn" onclick="closePost(9)">✕</button>
-<div class="post-modal">
-<div class="modal-image-side"><img src="images/img17.jpg"></div>
-<div class="modal-detail-side">
-<div class="modal-header">
-<span class="modal-username">AURAofficial <span class="verified"></span></span>
-<span style="font-size:12px;color:#a8a8a8;margin-left:4px;">AURA</span>
-</div>
-<div class="modal-comments">
-
-<div class="comment-item"><div class="comment-body">
-<div class="comment-text"><strong>AURAofficial</strong> ✦ AURA<br>우리 네 명 💫</div>
-</div></div>
-
-<div class="comment-item"><div class="comment-body">
-<div class="comment-text"><strong>aura_4ever</strong> 완전체 미쳤다 진짜</div>
-</div></div>
-
-<div class="comment-item"><div class="comment-body">
-<div class="comment-text"><strong>fox_eunhwi</strong> 솔직히 은휘가 센터 먹어야 되는 거 아닌가</div>
-</div></div>
-
-</div>
-</div>
-</div>
-</div>
