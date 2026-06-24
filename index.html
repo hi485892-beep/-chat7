@@ -650,6 +650,53 @@ function togglePostBtn(id) {
 
 
 <script>
+
+// ── 댓글 삭제 ──
+var _adminVerified = false;
+var ADMIN_PW = 'aura2024admin';
+
+async function deleteComment(commentId, username) {
+  // 본인 댓글인지 확인
+  if (window._username && window._username === username) {
+    if (!confirm('댓글을 삭제할까요?')) return;
+  } else {
+    // 관리자 확인
+    if (!_adminVerified) {
+      var pw = prompt('관리자 비밀번호를 입력하세요:');
+      if (pw !== ADMIN_PW) { alert('비밀번호가 틀렸어요!'); return; }
+      _adminVerified = true;
+    }
+  }
+  try {
+    const res = await fetch(SUPA_URL + '/rest/v1/comments?id=eq.' + commentId, {
+      method: 'DELETE',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (res.ok || res.status === 204) {
+      // 시트와 모달 둘 다 새로고침
+      var postId = 'post' + _currentSheetPostId;
+      var list = document.getElementById('sheetCommentList');
+      if (list && document.getElementById('commentSheet').classList.contains('open')) {
+        await renderSupaComments(postId, list);
+        list.scrollTop = list.scrollHeight;
+      }
+      // 모달도 새로고침
+      if (_currentSheetPostId) {
+        var area = document.getElementById('commentsArea' + _currentSheetPostId);
+        if (area) await renderSupaComments(postId, area);
+      }
+    } else {
+      alert('삭제 실패: ' + res.status);
+    }
+  } catch(e) {
+    alert('오류: ' + e.message);
+  }
+}
+
 // ── UTILS ──
 function escapeHtml(s) {
   if (!s) return '';
@@ -740,13 +787,18 @@ function makeCommentEl(c) {
   const fgList = ['#b09fff','#a8d4ff','#ffb4d4','#a8d4ff','#d4baff','#b09fff','#a8d4ff'];
   const idx = (c.username || '?').charCodeAt(0) % bgList.length;
   const initial = (c.username || '?').charAt(0).toUpperCase();
+  const isMine = window._username && window._username === c.username;
   const d = document.createElement('div');
   d.className = 'comment-item supa-comment';
   d.innerHTML =
     '<div class="comment-avatar" style="background:' + bgList[idx] + ';font-size:13px;color:' + fgList[idx] + ';">' + escapeHtml(initial) + '</div>' +
     '<div class="comment-body">' +
       '<div class="comment-text"><strong>' + escapeHtml(c.username) + '</strong> ' + escapeHtml(c.text) + '</div>' +
-      '<div class="comment-meta"><span class="comment-time">' + timeAgo(c.created_at) + '</span><span class="comment-reply">답글 달기</span></div>' +
+      '<div class="comment-meta">' +
+        '<span class="comment-time">' + timeAgo(c.created_at) + '</span>' +
+        '<span class="comment-reply">답글 달기</span>' +
+        '<span class="comment-delete" onclick="deleteComment(' + c.id + ', '' + escapeHtml(c.username) + '')" style="color:#ff6b6b;font-size:11px;cursor:pointer;margin-left:8px;">' + (isMine ? '삭제' : '🗑') + '</span>' +
+      '</div>' +
     '</div>' +
     '<span class="comment-heart" onclick="toggleHeart(this)">♡</span>';
   return d;
