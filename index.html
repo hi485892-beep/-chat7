@@ -650,6 +650,16 @@ function togglePostBtn(id) {
 
 
 <script>
+// ── UTILS ──
+function escapeHtml(s) {
+  if (!s) return '';
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
 // ── SUPABASE CONFIG ──
 const SUPA_URL = 'https://uwhgajjvrnryxmkktggb.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3aGdhamp2cm5yeXhta2t0Z2diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyNzM0NDcsImV4cCI6MjA5Nzg0OTQ0N30.Qz9o3YuQNPm8PGZIVhkGH_75sSdP7m2PBHNph7DQQB8';
@@ -672,19 +682,48 @@ async function supaFetch(path, opts) {
 
 async function loadComments(postId) {
   try {
-    return await supaFetch('/rest/v1/comments?post_id=eq.' + postId + '&order=created_at.asc');
-  } catch(e) { return []; }
+    const res = await fetch(SUPA_URL + '/rest/v1/comments?post_id=eq.' + postId + '&order=created_at.asc', {
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!res.ok) {
+      console.error('불러오기 실패:', res.status, await res.text());
+      return [];
+    }
+    return await res.json();
+  } catch(e) {
+    console.error('loadComments 오류:', e);
+    return [];
+  }
 }
 
 async function saveComment(postId, username, text) {
   try {
-    await supaFetch('/rest/v1/comments', {
+    const res = await fetch(SUPA_URL + '/rest/v1/comments', {
       method: 'POST',
-      prefer: 'return=minimal',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
       body: JSON.stringify({ post_id: postId, username: username, text: text })
     });
+    if (!res.ok) {
+      var errText = await res.text();
+      console.error('저장 실패:', res.status, errText);
+      alert('댓글 저장 실패: ' + res.status + '\n' + errText);
+      return false;
+    }
     return true;
-  } catch(e) { return false; }
+  } catch(e) {
+    console.error('saveComment 오류:', e);
+    alert('네트워크 오류: ' + e.message);
+    return false;
+  }
 }
 
 function timeAgo(ts) {
