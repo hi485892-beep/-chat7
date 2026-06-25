@@ -432,23 +432,46 @@
   }
   .story-image.show { display: block; }
   .story-qa-box {
-    width: 100%; max-width: 380px;
+    width: 100%; max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
   }
-  .story-question-box {
-    background: rgba(255,255,255,0.12);
-    border-radius: 14px 14px 4px 14px;
-    padding: 16px 20px;
-    font-size: 15px; color: #fff;
-    margin-bottom: 8px;
-    font-style: italic;
-    text-align: center;
-  }
-  .story-answer-box {
+  /* 흰색 카드: 헤더 + 질문 */
+  .story-qa-card {
     background: #fff;
-    border-radius: 4px 14px 14px 14px;
-    padding: 18px 20px;
-    font-size: 17px; font-weight: 700; color: #111;
+    border-radius: 18px;
+    width: 100%;
+    overflow: hidden;
+  }
+  /* "Go 'head, ask me somethin'" 헤더 - 카드 상단 어두운 띠 */
+  .story-ask-header {
+    background: #1c1c1e;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
     text-align: center;
+    letter-spacing: 0.03em;
+  }
+  /* 질문 - 카드 흰색 영역 */
+  .story-question-box {
+    padding: 20px 20px 22px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #111;
+    text-align: center;
+    line-height: 1.45;
+  }
+  /* 답변 - 카드 아래 검정 배경 큰 글씨 */
+  .story-answer-box {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+    line-height: 1.3;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
   }
   .story-text-big {
     font-size: 28px; font-weight: 800; color: #fff;
@@ -506,7 +529,7 @@
     </div>
     <div class="stats-row">
       <div class="stat-item">
-        <span class="stat-num">1</span>
+        <span class="stat-num">11</span>
         <span class="stat-label">게시물</span>
       </div>
       <div class="stat-item">
@@ -589,6 +612,19 @@
     </div>
 <div class="post-cell" onclick="openPost(7)">
       <img src="images/img15.jpg" loading="lazy" alt="">
+<div class="post-cell" onclick="openPost(8)">
+      <img src="images/img_rian1.png" loading="lazy" alt="">
+</div>
+<div class="post-cell" onclick="openPost(9)">
+      <img src="images/img_group.png" loading="lazy" alt="">
+</div>
+<div class="post-cell" onclick="openPost(10)" style="position:relative;">
+      <img src="images/img_rian2a.png" loading="lazy" alt="">
+      <span class="multi-icon">⧉</span>
+</div>
+<div class="post-cell" onclick="openPost(11)">
+      <img src="images/img_eunhwi.png" loading="lazy" alt="">
+</div>
     </div>
   </div>
 
@@ -599,12 +635,12 @@
 
 <script>
 
-const likedState = {1:false,2:false,3:false,4:false,5:false,6:false,7:false};
-const likeCounts = {1:84000,2:297000,3:412000,4:558000,5:621000,6:473000,7:386000};
+const likedState = {1:false,2:false,3:false,4:false,5:false,6:false,7:false,8:false,9:false,10:false,11:false};
+const likeCounts = {1:84000,2:297000,3:412000,4:558000,5:621000,6:473000,7:386000,8:519000,9:438000,10:702000,11:688000};
 function openPost(id) { document.getElementById('modal'+id).classList.add('open'); document.body.style.overflow='hidden'; }
 function closePost(id) { document.getElementById('modal'+id).classList.remove('open'); document.body.style.overflow=''; }
 function handleOverlayClick(e,id) { if(e.target===document.getElementById('modal'+id)) closePost(id); }
-document.addEventListener('keydown',function(e){ if(e.key==='Escape') [1,2,3,4,5,6,7].forEach(closePost); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') [1,2,3,4,5,6,7,8,9,10,11].forEach(closePost); });
 function toggleMainHeart(id,base) {
   likedState[id]=!likedState[id];
   var btn=document.getElementById('mainHeart'+id);
@@ -939,15 +975,29 @@ var _storyTimer = null;
 var _userBehindPhoto = null; // 유저가 올린 사진
 
 var _stories = [
-  {
-    type: 'qa',
-    question: '캐나다에서 가장 기억에 남는 일은?',
-    answer: '경찰이랑 추격전'
-  },
-  {
-    type: 'user_photo',
-    placeholder: true
-  }
+  { type: 'qa', question: '캐나다에서 가장 기억에 남는 일은?', answer: '경찰이랑 추격전' },
+  { type: 'qa', question: '방금 보낸 버블 사실 확인 부탁드립니다.', answer: '리안어 번역기한테 가세요.' },
+  { type: 'qa', question: '오늘 리안어 번역기 쉬는 날인데 어떡하죠?', answer: '제 말을 믿으십시오.' },
+  { type: 'qa', question: '이번엔 안 바뀐 MBTI 알려주세요.', answer: 'CUTE' },
+  { type: 'qa', question: '팬들 속이는 거 재밌어요?', answer: '전 속인 적 없는데요?' },
+  { type: 'qa', question: '거짓말 안 하면 입에 가시 돋나요?', answer: '제가 사실은 장미라서요.' },
+  { type: 'qa', question: '리안어 능력시험 1급 있으면 팬싸 프리패스인가요?', answer: '제가 자격증 만들어 드릴게요.' },
+  { type: 'qa', question: '팬들이 안 좋아하면 셀카 삭제하나요?', answer: '네.... 몰래.' },
+  { type: 'qa', question: '팬들 좋아해요?', answer: '아니요.' },
+  { type: 'qa', question: '리안어 번역기 계정 팔로우하고 있나요?', answer: '네.' },
+  { type: 'qa', question: '그래서 지금 집이에요, 공항이에요?', answer: '도서관이요.' },
+  { type: 'qa', question: '리안어 번역기 계정 주인이 오빠 아니에요?', answer: '팬이겠죠.' },
+  { type: 'qa', question: '병원 선생님이 오빠 알아봐요?', answer: '네, 어제도 알아보시더라고요~' },
+  { type: 'qa', question: '멤버들 중 패션 테러리스트는?', answer: '아마도 리안이? ^^' },
+  { type: 'qa', question: 'IQ 몇이에요?', answer: '마지막으로 검사했을 때 120이요.' },
+  { type: 'qa', question: '가장 걱정되는 멤버는?', answer: '은휘...?' },
+  { type: 'qa', question: '문제적 남자 나가서 문제 다 푸는데 자기 건강 문제는 왜 못 풀어요?', answer: '그 문제는 의사 선생님도 못 풀어요 ㅠㅠ' },
+  { type: 'qa', question: '의사 선생님이 오빠 스케줄도 아는 거 아니에요?', answer: '어, 제가 말 안 하면 모르실걸요?' },
+  { type: 'qa', question: '은휘 잃어버릴까 봐 목에 이름표 달아주고 싶었던 적 있어요?', answer: 'ㅎㅎ....' },
+  { type: 'qa', question: '대형견이에요, 중형견이에요?', answer: '전 사람이에요.' },
+  { type: 'qa', question: '진짜 궁금한데 건강이랑 숨바꼭질 중이에요?', answer: '나 잡아 봐라~' },
+  { type: 'qa', question: 'IQ랑 체력 스탯 반대로 찍은 거 아니에요?', answer: '저 건강해요 ㅎㅎ' },
+  { type: 'user_photo', placeholder: true }
 ];
 
 function openBehindStory() {
@@ -994,7 +1044,10 @@ function renderStory() {
   if (s.type === 'qa') {
     content.innerHTML =
       '<div class="story-qa-box">' +
-        '<div class="story-question-box">Go \'head, ask me somethin\'<br><br>' + s.question + '</div>' +
+        '<div class="story-qa-card">' +
+          '<div class="story-ask-header">Go \'head, ask me somethin\'</div>' +
+          '<div class="story-question-box">' + s.question + '</div>' +
+        '</div>' +
         '<div class="story-answer-box">' + s.answer + '</div>' +
       '</div>';
   } else if (s.type === 'text') {
@@ -1039,3 +1092,28 @@ function uploadBehindPhoto(input) {
 
 </body>
 </html>
+<!-- ── 모달 8: 리안 물병 (바다) ── -->
+<div class="modal-overlay" id="modal8" onclick="handleOverlayClick(event,8)"><button class="modal-close-btn" onclick="closePost(8)">✕</button><div class="post-modal"><div class="modal-image-side"><img src="images/img_rian1.png" alt=""></div><div class="modal-detail-side"><div class="modal-header"><div class="modal-avatar"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1a0f35,#0d1a30);display:flex;align-items:center;justify-content:center;font-size:10px;color:#b09fff;font-weight:700;">AU</div></div><span class="modal-username">AURAofficial <span class="verified"></span></span><span style="font-size:12px;color:#a8a8a8;margin-left:4px;">리안</span><button class="modal-more">···</button></div><div class="modal-comments" id="commentsArea8"><div class="comment-item cap-comment"><div class="comment-avatar" style="background:linear-gradient(135deg,#1a0f35,#0d1a30);font-size:10px;color:#b09fff;font-weight:700;">AU</div><div class="comment-body"><div class="comment-text"><strong>AURAofficial</strong> ✦ 리안 (RIAN) 🌊<br>더워<br><br><span style='color:#b09fff;'>#리안 #RIAN #AURA #아우라 #여름 #바다</span></div><div class="comment-meta"><span class="comment-time">5일 전</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a0f30;font-size:11px;color:#b09fff;">파</div><div class="comment-body"><div class="comment-text"><strong>rian_splash</strong> 바다 배경 리안이... 이 비주얼 진짜 말이 안 됨 😭🌊 나 잠깐 숨 좀 쉬고 올게요</div><div class="comment-meta"><span class="comment-time">5일 전</span><span class="comment-likes">좋아요 21,447개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (144개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0d1a30;font-size:11px;color:#a8d4ff;">물</div><div class="comment-body"><div class="comment-text"><strong>water_bottle_rian</strong> 물병 들고 뭘 그렇게 멋있게 쳐다봐요 리안아 ㅠㅠ 범죄 신고합니다 💜</div><div class="comment-meta"><span class="comment-time">5일 전</span><span class="comment-likes">좋아요 18,892개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a1010;font-size:11px;color:#ffb4d4;">빨</div><div class="comment-body"><div class="comment-text"><strong>redhair_fan_k</strong> 빨간 머리에 젖은 티셔츠 조합 진짜 각본 있는 거 아니냐 ㄹㅇ 어떻게 이게 실화냐</div><div class="comment-meta"><span class="comment-time">5일 전</span><span class="comment-likes">좋아요 15,301개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (87개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0a1a1a;font-size:11px;color:#a8d4ff;">허</div><div class="comment-body"><div class="comment-text"><strong>허진오팬클럽</strong> 허진오씨 아드님 진짜 아버지보다 잘생겼다고 ㅠㅠ 아빠 미모 뛰어넘기 기가 막혀 😍</div><div class="comment-meta"><span class="comment-time">4일 전</span><span class="comment-likes">좋아요 9,882개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a0820;font-size:11px;color:#d4baff;">노</div><div class="comment-body"><div class="comment-text"><strong>yellow_eyes_rian</strong> 노란 눈빛이 바다 배경에서 더 빛나는 거 어떻게 설명함 😭 리안이 진짜 그림이다</div><div class="comment-meta"><span class="comment-time">4일 전</span><span class="comment-likes">좋아요 8,112개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (52개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0d0820;font-size:11px;color:#b09fff;">댄</div><div class="comment-body"><div class="comment-text"><strong>dance_god_rian</strong> 댄스 신동 출신이라 그런지 자세 하나하나가 다 다름 ㅠㅠ 포즈도 레전드야 진짜</div><div class="comment-meta"><span class="comment-time">4일 전</span><span class="comment-likes">좋아요 7,201개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0a0f1a;font-size:11px;color:#a8d4ff;">리</div><div class="comment-body"><div class="comment-text"><strong>rian_translator</strong> 캡션 '더워' 리안어 번역: '나 지금 예쁨 봐라' 🐶 이게 공식 번역임 이의 없음</div><div class="comment-meta"><span class="comment-time">3일 전</span><span class="comment-likes">좋아요 34,901개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (321개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#200a20;font-size:11px;color:#ff88ff;">🦊</div><div class="comment-body"><div class="comment-text"><strong>foxgang_real</strong> 허진오 아들이라 방송국 섭외도 아버지 라인으로 들어오는 거 공공연한 비밀 아닌가요? 은휘는 배경 하나 없이 직캠 하나로 여기까지 온 거 비교됨</div><div class="comment-meta"><span class="comment-time">3일 전</span><span class="comment-likes">좋아요 4개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (89개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#200a20;font-size:11px;color:#ff88ff;">🦊</div><div class="comment-body"><div class="comment-text"><strong>eunhwi_protecter_v2</strong> 버블 한 달에 4~6번 오는 게 자주인 거임? ㅋㅋ 은휘는 한 달 동안 버블 아예 못 오는 스케줄 쪼개서 라방을 키는 건데 그냥 팬사랑 비교 자체가 안 되지 않나요</div><div class="comment-meta"><span class="comment-time">2일 전</span><span class="comment-likes">좋아요 2개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div></div><div class="modal-actions"><div class="action-icons"><button class="action-icon heart" id="mainHeart8" onclick="toggleMainHeart(8,519000)">♡</button><button class="action-icon" onclick="focusComment(8)">💬</button><button class="action-icon">↗</button><button class="action-icon bookmark" style="margin-left:auto;">🔖</button></div><div class="likes-count">좋아요 <span id="likeNum8">51.9만</span>개</div><div class="post-date">5일 전</div></div><div class="modal-comment-input"><span class="emoji-btn">😊</span><input class="comment-input" id="commentInput8" type="text" placeholder="댓글 달기..." oninput="togglePostBtn(8)"><button class="post-btn" id="postBtn8" onclick="addComment(8)">게시</button></div></div></div></div></div>
+
+<!-- ── 모달 9: 아우라 단체 사진 ── -->
+<div class="modal-overlay" id="modal9" onclick="handleOverlayClick(event,9)"><button class="modal-close-btn" onclick="closePost(9)">✕</button><div class="post-modal"><div class="modal-image-side"><img src="images/img_group.png" alt=""></div><div class="modal-detail-side"><div class="modal-header"><div class="modal-avatar"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1a0f35,#0d1a30);display:flex;align-items:center;justify-content:center;font-size:10px;color:#b09fff;font-weight:700;">AU</div></div><span class="modal-username">AURAofficial <span class="verified"></span></span><button class="modal-more">···</button></div><div class="modal-comments" id="commentsArea9"><div class="comment-item cap-comment"><div class="comment-avatar" style="background:linear-gradient(135deg,#1a0f35,#0d1a30);font-size:10px;color:#b09fff;font-weight:700;">AU</div><div class="comment-body"><div class="comment-text"><strong>AURAofficial</strong> ✦ AURA 🖤<br>도현 리안 은휘 로진<br>우리 넷 ㅎ<br><br><span style='color:#b09fff;'>#AURA #아우라 #도현 #리안 #은휘 #이로진 #단체샷</span></div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a0f30;font-size:11px;color:#b09fff;">넷</div><div class="comment-body"><div class="comment-text"><strong>aura_four_ever</strong> 넷이 다 같이 있는 사진이 얼마 만이야 ㅠㅠ 이게 아우라지 진짜 😭🖤</div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-likes">좋아요 44,201개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (388개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0d1a30;font-size:11px;color:#a8d4ff;">sv</div><div class="comment-body"><div class="comment-text"><strong>starvision_official</strong> AURA 💫 우리 보이즈 응원해요</div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-likes">좋아요 18,443개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a1010;font-size:11px;color:#ffb4d4;">가</div><div class="comment-body"><div class="comment-text"><strong>leather_jacket_aura</strong> 가죽 재킷 네 명 다 입은 거 보고 심장 멎었잖아요 ㅠㅠ 이 조합이 진짜 역대급이다</div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-likes">좋아요 29,882개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (214개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0a1a1a;font-size:11px;color:#a8d4ff;">도</div><div class="comment-body"><div class="comment-text"><strong>dohyeon_green_eyes</strong> 도현 초록 눈이 단체 사진에서도 빛나는 거 어떻게 설명함 ㅠㅠ 다들 너무 멋있는데 도현이 특히 더 😍💚</div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-likes">좋아요 12,119개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a0820;font-size:11px;color:#d4baff;">로</div><div class="comment-body"><div class="comment-text"><strong>rojin_rabbit_fan</strong> 이로진 빨간 눈빛이 단체 사진에서도 존재감 미침... 작곡하고 노래하고 이 비주얼까지 어떻게 한 사람임 💙</div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-likes">좋아요 10,334개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (91개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0d0820;font-size:11px;color:#b09fff;">리</div><div class="comment-body"><div class="comment-text"><strong>rian_center_world</strong> 리안 가운데 있는 거 알았는데도 시선 고정... 댄스 신동 포스가 단체 사진에서도 나오는 거 신기하다 ❤️</div><div class="comment-meta"><span class="comment-time">1주일 전</span><span class="comment-likes">좋아요 9,201개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#200a20;font-size:11px;color:#ff88ff;">🦊</div><div class="comment-body"><div class="comment-text"><strong>foxgang_eunhwi_1st</strong> 은휘 비주얼 압도적이네 ㄹㅇ 페이스 직캠 조회수가 왜 그렇게 높은지 단체 사진 보면 바로 이해됨 🦊✨</div><div class="comment-meta"><span class="comment-time">1주일 전</span><span class="comment-likes">좋아요 17개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (33개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#200a20;font-size:11px;color:#ff88ff;">🦊</div><div class="comment-body"><div class="comment-text"><strong>eunhwi_silver_fox</strong> 은발 은휘 존재감이 사진 전체를 장악하고 있는 거 나만 보이냐 솔직히 넷 중에 제일 눈 가는 거 인정해라 공설미남 맞잖아</div><div class="comment-meta"><span class="comment-time">1주일 전</span><span class="comment-likes">좋아요 22개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (57개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#200a20;font-size:11px;color:#ff88ff;">🦊</div><div class="comment-body"><div class="comment-text"><strong>real_fox_club</strong> 도현 아프다고 무대 앉아서 하는 거 단체 활동에 피해 주는 거 아닌가요? 은휘가 퍼포먼스로 공백 메꾸는 게 팬들 눈에 안 보임? 리더 자리를 건강한 멤버한테 넘겨야 하는 거 아닌지</div><div class="comment-meta"><span class="comment-time">1주일 전</span><span class="comment-likes">좋아요 3개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (128개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div></div><div class="modal-actions"><div class="action-icons"><button class="action-icon heart" id="mainHeart9" onclick="toggleMainHeart(9,438000)">♡</button><button class="action-icon" onclick="focusComment(9)">💬</button><button class="action-icon">↗</button><button class="action-icon bookmark" style="margin-left:auto;">🔖</button></div><div class="likes-count">좋아요 <span id="likeNum9">43.8만</span>개</div><div class="post-date">2주일 전</div></div><div class="modal-comment-input"><span class="emoji-btn">😊</span><input class="comment-input" id="commentInput9" type="text" placeholder="댓글 달기..." oninput="togglePostBtn(9)"><button class="post-btn" id="postBtn9" onclick="addComment(9)">게시</button></div></div></div></div></div>
+
+<!-- ── 모달 10: 리안 라면 두 장 (carousel) ── -->
+<div class="modal-overlay" id="modal10" onclick="handleOverlayClick(event,10)"><button class="modal-close-btn" onclick="closePost(10)">✕</button><div class="post-modal"><div class="modal-image-side" style="position:relative;"><img src="images/img_rian2a.png" alt="" id="carouselImg10" style="width:100%;height:100%;object-fit:cover;display:block;"><button onclick="carousel10()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);border:none;color:#fff;font-size:22px;border-radius:50%;width:36px;height:36px;cursor:pointer;line-height:36px;text-align:center;">›</button><div id="carouselDots10" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#fff;" id="dot10_0"></span><span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.4);" id="dot10_1"></span></div></div><div class="modal-detail-side"><div class="modal-header"><div class="modal-avatar"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1a0f35,#0d1a30);display:flex;align-items:center;justify-content:center;font-size:10px;color:#b09fff;font-weight:700;">AU</div></div><span class="modal-username">AURAofficial <span class="verified"></span></span><span style="font-size:12px;color:#a8a8a8;margin-left:4px;">리안</span><button class="modal-more">···</button></div><div class="modal-comments" id="commentsArea10"><div class="comment-item cap-comment"><div class="comment-avatar" style="background:linear-gradient(135deg,#1a0f35,#0d1a30);font-size:10px;color:#b09fff;font-weight:700;">AU</div><div class="comment-body"><div class="comment-text"><strong>AURAofficial</strong> ✦ 리안 (RIAN) 🍜<br>배고파서 라면 끓였는데 생각보다 맛있었음<br>근데 면이 좀 불었나? 어쨌든 맛있었음<br><br><span style='color:#b09fff;'>#리안 #RIAN #AURA #아우라 #라면 #먹방 #일상</span></div><div class="comment-meta"><span class="comment-time">3주일 전</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a0f30;font-size:11px;color:#b09fff;">라</div><div class="comment-body"><div class="comment-text"><strong>ramen_rian_life</strong> 라면 먹는 리안이 왜 이렇게 멋있냐고 ㅠㅠ 나 도대체 어디 보고 있어야 해 😭🍜</div><div class="comment-meta"><span class="comment-time">3주일 전</span><span class="comment-likes">좋아요 25,881개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (233개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0d1a30;font-size:11px;color:#a8d4ff;">아</div><div class="comment-body"><div class="comment-text"><strong>adidas_rian_fan</strong> 아디다스 입고 라면 먹는 리안... 이게 콜라보냐 일상이냐 진짜 광고 찍어야 할 것 같음 ❤️</div><div class="comment-meta"><span class="comment-time">3주일 전</span><span class="comment-likes">좋아요 19,334개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a1010;font-size:11px;color:#ffb4d4;">면</div><div class="comment-body"><div class="comment-text"><strong>noodle_pull_rian</strong> 면 올리는 거 보고 진짜 심장 뛰었잖아요 ㅠㅠ 젓가락질이 왜 저렇게 멋있어 먹방 채널 개설해줘 리안아 제발</div><div class="comment-meta"><span class="comment-time">3주일 전</span><span class="comment-likes">좋아요 14,102개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (107개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0a1a1a;font-size:11px;color:#a8d4ff;">짜</div><div class="comment-body"><div class="comment-text"><strong>angry_vein_lol</strong> 두 번째 사진에 이마에 짜증 표정 ㅋㅋㅋ 면 불었나 짜증난 거야 리안아? 표정조차 귀엽다고 진짜 😂💜</div><div class="comment-meta"><span class="comment-time">3주일 전</span><span class="comment-likes">좋아요 38,771개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (412개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a0820;font-size:11px;color:#d4baff;">리</div><div class="comment-body"><div class="comment-text"><strong>rian_translator</strong> '면 좀 불었나?' 리안어 번역: 사실 다 먹고 한 그릇 더 끓였음 🔥 이건 100% 확실</div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-likes">좋아요 51,220개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (521개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0d0820;font-size:11px;color:#b09fff;">댄</div><div class="comment-body"><div class="comment-text"><strong>dance_rian_stan</strong> 댄스 신동이 라면 먹는 것도 퍼포먼스 같은 거 리안이는 진짜 ㅠㅠ 이래서 최애야</div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-likes">좋아요 7,892개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#200a20;font-size:11px;color:#ff88ff;">🦊</div><div class="comment-body"><div class="comment-text"><strong>foxgang_truth</strong> 챌린지 올리면서 팬들 모으는 은휘랑 집에서 라면이나 먹는 리안이랑 팬소통 비교하면 누가 더 팬을 생각하는 건지 모르겠음 솔직히</div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-likes">좋아요 5개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (74개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#200a20;font-size:11px;color:#ff88ff;">🦊</div><div class="comment-body"><div class="comment-text"><strong>eunhwi_only88</strong> 버블 일주일에 4~6번 오는 거 팬소통이라고 포장하는 게 좀 웃김 ㅋ 그 중에 절반은 장난이잖아요 어쨌든 은휘가 진성 팬사랑인 건 아우라 팬들도 다 알지 않나요?</div><div class="comment-meta"><span class="comment-time">2주일 전</span><span class="comment-likes">좋아요 3개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div></div><div class="modal-actions"><div class="action-icons"><button class="action-icon heart" id="mainHeart10" onclick="toggleMainHeart(10,702000)">♡</button><button class="action-icon" onclick="focusComment(10)">💬</button><button class="action-icon">↗</button><button class="action-icon bookmark" style="margin-left:auto;">🔖</button></div><div class="likes-count">좋아요 <span id="likeNum10">70.2만</span>개</div><div class="post-date">3주일 전</div></div><div class="modal-comment-input"><span class="emoji-btn">😊</span><input class="comment-input" id="commentInput10" type="text" placeholder="댓글 달기..." oninput="togglePostBtn(10)"><button class="post-btn" id="postBtn10" onclick="addComment(10)">게시</button></div></div></div></div></div>
+
+<!-- 은휘 게시물 (5번 기존)에 이어서 새 은휘 라이트룸 게시물: 다섯번째 사진 -->
+
+<script>
+// ── 캐러셀 (게시물10) ──
+var _carousel10idx = 0;
+var _carousel10imgs = ['images/img_rian2a.png','images/img_rian2b.png'];
+function carousel10() {
+  _carousel10idx = (_carousel10idx + 1) % _carousel10imgs.length;
+  document.getElementById('carouselImg10').src = _carousel10imgs[_carousel10idx];
+  document.getElementById('dot10_0').style.background = _carousel10idx === 0 ? '#fff' : 'rgba(255,255,255,0.4)';
+  document.getElementById('dot10_1').style.background = _carousel10idx === 1 ? '#fff' : 'rgba(255,255,255,0.4)';
+}
+</script>
+
+<!-- ── 모달 11: 은휘 단독 (분홍 트랙수트) ── -->
+<div class="modal-overlay" id="modal11" onclick="handleOverlayClick(event,11)"><button class="modal-close-btn" onclick="closePost(11)">✕</button><div class="post-modal"><div class="modal-image-side"><img src="images/img_eunhwi.png" alt=""></div><div class="modal-detail-side"><div class="modal-header"><div class="modal-avatar"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1a0f35,#0d1a30);display:flex;align-items:center;justify-content:center;font-size:10px;color:#b09fff;font-weight:700;">AU</div></div><span class="modal-username">AURAofficial <span class="verified"></span></span><span style="font-size:12px;color:#a8a8a8;margin-left:4px;">은휘</span><button class="modal-more">···</button></div><div class="modal-comments" id="commentsArea11"><div class="comment-item cap-comment"><div class="comment-avatar" style="background:linear-gradient(135deg,#1a0f35,#0d1a30);font-size:10px;color:#b09fff;font-weight:700;">AU</div><div class="comment-body"><div class="comment-text"><strong>AURAofficial</strong> ✦ 은휘 (EUNHWI) 🦊<br>ㅎㅎ<br><br><span style='color:#b09fff;'>#은휘 #EUNHWI #AURA #아우라 #셀카</span></div><div class="comment-meta"><span class="comment-time">방금</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a0f30;font-size:11px;color:#b09fff;">핑</div><div class="comment-body"><div class="comment-text"><strong>pink_eunhwi_world</strong> 핑크 트랙수트에 파란 눈 조합 이게 말이 됩니까 진짜로 😭💙 은휘야 이거 셀카 찍으면서 자기 얼굴 보고 뿌듯했지?</div><div class="comment-meta"><span class="comment-time">방금</span><span class="comment-likes">좋아요 31,220개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (287개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0d1a30;font-size:11px;color:#a8d4ff;">sv</div><div class="comment-body"><div class="comment-text"><strong>starvision_official</strong> 은휘 셀카 퀄리티 실화야? 미감이 압도적이에요 🌟</div><div class="comment-meta"><span class="comment-time">방금</span><span class="comment-likes">좋아요 14,002개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a1010;font-size:11px;color:#ffb4d4;">직</div><div class="comment-body"><div class="comment-text"><strong>facecam_legend_e</strong> 페이스 직캠 조회수 왜 그렇게 높은지 이 사진 하나로 설명됨 ㅠㅠ 표정 연기 하나는 진짜 기가 막혀</div><div class="comment-meta"><span class="comment-time">방금</span><span class="comment-likes">좋아요 22,447개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (198개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0a1a1a;font-size:11px;color:#a8d4ff;">브</div><div class="comment-body"><div class="comment-text"><strong>blue_eyes_eunhwi</strong> 브이 포즈도 각이 이렇게 나오는 사람이 또 있을까요 ㄹㅇ... 셀카 겁나 많이 올려줘서 감사해요 은휘야 💙</div><div class="comment-meta"><span class="comment-time">방금</span><span class="comment-likes">좋아요 18,881개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#1a0820;font-size:11px;color:#d4baff;">여</div><div class="comment-body"><div class="comment-text"><strong>fox_selca_king</strong> 여우 모에화가 왜 은휘인지 이 사진 하나면 설명 끝남 🦊 숏폼 챌린지 악마 셀카 악마 진짜로</div><div class="comment-meta"><span class="comment-time">방금</span><span class="comment-likes">좋아요 15,334개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (163개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0d0820;font-size:11px;color:#b09fff;">관</div><div class="comment-body"><div class="comment-text"><strong>eunhwi_insta_live</strong> 관종이라 라방 자주 켜주는 거 알면서도 좋아요 진짜로 ㅋㅋㅋ 덕분에 은휘 얼굴 자주 볼 수 있어서 행복함 😭💜</div><div class="comment-meta"><span class="comment-time">방금</span><span class="comment-likes">좋아요 9,772개</span><span class="comment-reply">답글 달기</span></div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div><div class="comment-item"><div class="comment-avatar" style="background:#0a0f1a;font-size:11px;color:#a8d4ff;">공</div><div class="comment-body"><div class="comment-text"><strong>gongseo_beauty_e</strong> 공설미남이 맞긴 맞는데 이건 그냥 공설 비주얼 끝판왕이다 ㅠㅠ 외모정병 있는 거 이해됨 나도 이렇게 생겼으면 라이브 끄기 싫었을 듯</div><div class="comment-meta"><span class="comment-time">방금</span><span class="comment-likes">좋아요 12,109개</span><span class="comment-reply">답글 달기</span></div><div class="replies-toggle" onclick="toggleReplies(this)">답글 보기 (88개)</div></div><span class="comment-heart" onclick="toggleHeart(this)">♡</span></div></div><div class="modal-actions"><div class="action-icons"><button class="action-icon heart" id="mainHeart11" onclick="toggleMainHeart(11,688000)">♡</button><button class="action-icon" onclick="focusComment(11)">💬</button><button class="action-icon">↗</button><button class="action-icon bookmark" style="margin-left:auto;">🔖</button></div><div class="likes-count">좋아요 <span id="likeNum11">68.8만</span>개</div><div class="post-date">방금</div></div><div class="modal-comment-input"><span class="emoji-btn">😊</span><input class="comment-input" id="commentInput11" type="text" placeholder="댓글 달기..." oninput="togglePostBtn(11)"><button class="post-btn" id="postBtn11" onclick="addComment(11)">게시</button></div></div></div></div></div>
